@@ -1,4 +1,7 @@
-# PROBLEM 2 ---------------------------------------------------------------
+# Problem Set 1b
+# Name: CZ
+# Collaborators:
+# Time Spent: 0:10
 
 # Now write a program that calculates the minimum fixed monthly payment needed in order pay
 # off a credit card balance within 12 months.
@@ -8,6 +11,7 @@
 # 2.) Pay for a year
 # 3.) If balance is still > 0, raise minimum monthly payment by $10, try again
 
+# PROBLEM 2 ---------------------------------------------------------------
 
 def apply_min_payment(balance):
   balance = balance + (balance * monthly_interest_rate) - min_monthly_payment

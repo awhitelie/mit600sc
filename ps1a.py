@@ -1,3 +1,9 @@
+# Problem Set 1a
+# Name: CZ
+# Collaborators:
+# Time Spent: 0:10
+
+
 # Write a program to calculate the credit card balance after one year
 # if the person only pays the minimum on the card.
 #

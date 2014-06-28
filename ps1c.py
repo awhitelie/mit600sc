@@ -1,12 +1,21 @@
+# Problem Set 1c
+# Name: CZ
+# Collaborators: Colombo
+# Time Spent: 1:00 (stumped before watching Lecture 3) // 0:05 (after watching Lecture 3)
+
+
 # Lower Bound = Balance / 12
 # Upper Bound = (Balance * (1 + Annual Interest Rate / 12) ** 12) / 12
 #
 #
-# When first solution is found, becomes new upper bound
-# Last checked becomes new lower bound
+# Write a program that uses these bounds and bisection search (for more info check out the
+# Wikipedia page) to find the smallest monthly payment to the cent (no more multiples of
+# $10) such that we can pay off the debt within a year. Try it out with large inputs, and notice how
+# fast it is. Produce the output in the same format as you did in problem 2.
 #
 #
-#
+
+# PROBLEM 3 ---------------------------------------------------------------
 
 def apply_min_payment(balance,payment):
   balance = balance + (balance * monthly_interest_rate) - payment
