@@ -101,7 +101,7 @@ def compute_root(poly, x_0, epsilon):
     print eval
 
 
-poly = (-13.39, 0.0, 17.5, 3.0, 1.0)
-x_0 = 0.1
-epsilon = .0001
-print compute_root(poly, x_0, epsilon)
+# poly = (-13.39, 0.0, 17.5, 3.0, 1.0)
+# x_0 = 0.1
+# epsilon = .0001
+# print compute_root(poly, x_0, epsilon)
