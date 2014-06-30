@@ -106,32 +106,35 @@ def check_guess(guess, hidden_word, word):
   else:
     return hidden_word, False
 
+def hangman(word, hidden_word, guess_count, letters):
+  print "Welcome to the game, hombre."
+  print "I have chosen a word that is", len(word), "letters long."
+  summary(hidden_word, guess_count)
+  while hidden_word != word and guess_count > 0:
+    guess = str(raw_input("Guess a letter:"))
+    letters, valid = check_letters(letters,guess)
+    if valid == False:
+      print "That is not a valid guess. Try again."
+    else:
+      hidden_word, correct = check_guess(guess, hidden_word, word)
+      if correct == False:
+        guess_count -= 1
+        print "Sorry, that letter isn't in the word."
+      else:
+        print "Good guess!"
+    if guess_count == 0 or hidden_word == word:
+      break
+    summary(hidden_word, guess_count)
+  if guess_count == 0:
+    print "YOU LOSE! The word was:", word
+  elif hidden_word == word:
+    print "YOU WIN!"
+
+# ------------ START GAME -----------------------------------------
 
 word = choose_word(wordlist)
 hidden_word = hide_word(word)
-length = len(word)
 guess_count = 10
 letters = 'abcdefghijklmnopqrstuvwxyz'
 
-print "Welcome to the game, hombre."
-print "I have chosen a word that is", length, "letters long."
-summary(hidden_word, guess_count)
-while hidden_word != word and guess_count > 0:
-  guess = str(raw_input("Guess a letter:"))
-  letters, valid = check_letters(letters,guess)
-  if valid == False:
-    print "That is not a valid guess. Try again."
-  else:
-    hidden_word, correct = check_guess(guess, hidden_word, word)
-    if correct == False:
-      guess_count -= 1
-      print "Sorry, that letter isn't in the word."
-    else:
-      print "Good guess!"
-  if guess_count == 0 or hidden_word == word:
-    break
-  summary(hidden_word, guess_count)
-if guess_count == 0:
-  print "YOU LOSE! The word was:", word
-elif hidden_word == word:
-  print "YOU WIN!"
+hangman(word, hidden_word, guess_count, letters)
