@@ -3,6 +3,18 @@
 # Hangman
 #
 
+# Problem Set 2
+# Name: CZ
+# Collaborators (Discussion): --
+# Collaborators (Identical Solution): --
+# Time: 0:30 (Sunday night)
+# Time: 0:45 (Monday)
+# Notes: Started outlining on Sunday night. Fell onto the other side of
+#        the Ballmer Peak. Picked it up Monday, completed fine.
+#        Extra time Monday mostly for formatting/polish
+# Beers: 5 (Sunday) 0 (Monday)
+
+
 
 # -----------------------------------
 # Helper code
@@ -47,45 +59,41 @@ wordlist = load_words()
 
 # your code begins here!
 
-# 1.) Display the word as blank letters
-# 2.) Ask the user to input a guess
-# 3.) Check to see if the guess matches one of the letters in the word
-#  - Valid guesses are unguessed letters
-# 4.) If correct, display word with letter filled in
-# 5.) If incorrect, take away a guess
-# 6.) Remove guessed letter from available guesses
-# 7.) Display word with correct guesses filled in and # guesses remaining.
-# 8.) When the user runs out of guesses, they lose.
-# 9.) When the user guesses the word, they win!
-
-# write a function to build a string with the guessed letters
-# write a function to display unused letters
-
 def hide_word(word):
+  """ Takes the computer's selected word and replaces each character
+      with an underscore. Returns a new value """
   hidden_word = ""
   for w in word:
     hidden_word += "_"
   return hidden_word
 
 
+def summary(hidden_word, guess_count):
+  """ Provides the status of the game so far, revealing guessed letters
+      and the number of guesses and letters left """
+  print ""
+  print "------------------------------"
+  print "The word is", hidden_word
+  print "Guesses left:", guess_count
+  print "Available letters are: ", letters
+
+
 def check_letters(letters,guess):
+  """ Checks the guess against the string of available remaining letters
+      and makes sure only a single letter has been guessed. Removes
+      guessed letters from valid letters string """
   for l in letters:
-    if guess == l:
+    if letters.find(guess) != -1 and len(guess) == 1:
       letters = letters.replace(guess, "")
-      return letters
+      return letters, True
     else:
-      print "That is not a valid guess! Try again."
-#       ask()
-#
-#
-# def ask():
-#   return str(raw_input("Pick a letter: "))
+      return letters, False
 
 
-
-
-
-def check_guess(guess, hidden_word, word, letters):
+def check_guess(guess, hidden_word, word):
+  """ Checks to see if guess is correct. If correct, replaces underscores in
+      hidden word with guesses letter, then returns the word appropriately
+      filled in """
   hidden_word_list = list(hidden_word)
   index = 0
   for w in word:
@@ -93,21 +101,40 @@ def check_guess(guess, hidden_word, word, letters):
       hidden_word_list[index] = w
     index += 1
   hidden_word = ''.join(hidden_word_list)
-  return (hidden_word, word)
+  if word.find(guess) != -1:
+    return hidden_word, True
+  else:
+    return hidden_word, False
 
+def hangman(word, hidden_word, guess_count, letters):
+  print "Welcome to the game, hombre."
+  print "I have chosen a word that is", len(word), "letters long."
+  summary(hidden_word, guess_count)
+  while hidden_word != word and guess_count > 0:
+    guess = str(raw_input("Guess a letter:"))
+    letters, valid = check_letters(letters,guess)
+    if valid == False:
+      print "That is not a valid guess. Try again."
+    else:
+      hidden_word, correct = check_guess(guess, hidden_word, word)
+      if correct == False:
+        guess_count -= 1
+        print "Sorry, that letter isn't in the word."
+      else:
+        print "Good guess!"
+    if guess_count == 0 or hidden_word == word:
+      break
+    summary(hidden_word, guess_count)
+  if guess_count == 0:
+    print "YOU LOSE! The word was:", word
+  elif hidden_word == word:
+    print "YOU WIN!"
+
+# ------------ START GAME -----------------------------------------
 
 word = choose_word(wordlist)
 hidden_word = hide_word(word)
-length = len(word)
 guess_count = 10
-letters = 'bcdefghijklmnopqrstuvwxyz'
+letters = 'abcdefghijklmnopqrstuvwxyz'
 
-print "Welcome to the game, hombre."
-print "I have chosen a word that is", length, "letters long."
-print "The word is: ", hidden_word
-print "------------------------------"
-print "You have ", guess_count, " guesses left."
-
-guess = ask()
-print check_letters(letters,guess)
-# print check_guess(guess, hidden_word, word, letters)
+hangman(word, hidden_word, guess_count, letters)
