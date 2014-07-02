@@ -243,16 +243,16 @@ def play_hand(hand, word_list):
     running_hand = hand.copy()
     running_score = 0
     word = ""
-    while sum(running_hand.values()) > 0 and hand != '.':
+    while sum(running_hand.values()) > 0 and word != '.':
       print "Your hand is: ", display_hand(running_hand)
-      word = get_word()
-      if word == ".":
-        break
       while is_valid_word(word, running_hand, word_list) == False:
-        print "That is not a valid word. Please try again: "
+        if word != "" and is_valid_word(word, running_hand, word_list) == False:
+          print "That is not a valid word. Please try again."
         word = get_word()
         if word == ".":
           break
+      if word == ".":
+        break
       running_score += get_word_score(word, HAND_SIZE)
       print "Nice!", word, "is worth", get_word_score(word, HAND_SIZE), "points!"
       print
@@ -310,6 +310,7 @@ def play_game(word_list):
         return
 
 def initialize(count):
+  print
   print "To play a new hand, press 'n'"
   if count > 0:
     print "To play the same hand again, press 'r'"

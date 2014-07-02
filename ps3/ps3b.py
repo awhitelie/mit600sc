@@ -129,12 +129,14 @@ def play_game(word_list):
         print
         count += 1
       elif next == 'r':
-        player = comp_or_user()
+        while player not in ('u', 'c'):
+          player = comp_or_user()
+          print
         if player == 'u':
           play_hand(hand, word_list)
         if player == 'c':
           comp_play_hand(hand, word_list)
-        print
+          print
       elif next == 'e':
         return
 
