@@ -4,7 +4,7 @@
 # Created by: Kevin Luu <luuk> and Jenna Wiens <jwiens>
 #
 #
-# Problem Set 3
+# Problem Set 3a
 # Name: CZ
 # Collaborators (Discussion): --
 # Collaborators (Identical Solution): --
