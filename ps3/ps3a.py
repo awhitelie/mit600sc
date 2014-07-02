@@ -4,6 +4,15 @@
 # Created by: Kevin Luu <luuk> and Jenna Wiens <jwiens>
 #
 #
+# Problem Set 3
+# Name: CZ
+# Collaborators (Discussion): --
+# Collaborators (Identical Solution): --
+# Time: 1:30 (Tuesday Night)
+# Notes: Dove right in. All functions pretty straightforward.
+#        Assembling into a hand a little touchy, assembling a full game took a while.
+
+
 
 import random
 import string
