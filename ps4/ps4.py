@@ -162,7 +162,14 @@ def shift_alpha(alpha, shift):
 
   return shifted
 
+
+# ----------------------
+# Test for build_coder()
+# ----------------------
+
 # build_coder(5)
+
+# ----------------------
 
 
 def build_decoder(shift):
@@ -198,7 +205,14 @@ def build_decoder(shift):
 
     return build_coder(27 - shift)
 
+# ----------------------
+# Test for build_decoder()
+# ----------------------
+
 # print build_decoder(3)
+
+# ----------------------
+
 
 def apply_coder(text, coder):
     """
@@ -222,8 +236,14 @@ def apply_coder(text, coder):
         new_text += t
     return new_text
 
+# ----------------------
+# Test for apply_coder()
+# ----------------------
+
 # print apply_coder("Hello, world!", build_coder(3))
 # print apply_coder("Khoor,czruog!", build_decoder(3))
+
+# ----------------------
 
 def apply_shift(text, shift):
     """
@@ -250,11 +270,18 @@ def apply_shift_back(text, shift):
     decoder = build_decoder(shift)
     return apply_coder(text, decoder)
 
+# ----------------------
+# Test for apply_shift()
+# ----------------------
+
 # print apply_shift('This is a test.', 8)
+
+# ----------------------
 
 #
 # Problem 2: Codebreaking.
 #
+
 def find_best_shift(wordlist, text):
     """
     Decrypts the encoded text and returns the plaintext.
@@ -272,44 +299,77 @@ def find_best_shift(wordlist, text):
     'Hello, world!'
     """
 
-    e_words = e_word_list(text)
-    count = 0
-    # print e_words, count
+    # ------------------------------------------------------
+    # This was my original attempt-- it found the first shift that
+    # contained all real words, but didn't count the max number
+    # and didn't use is_word(), and needed an additional helper
+    # function to strip punctuation and build a list.
+    # This fucked up later on multi-level decryption,
+    # and broke decryption of 3 random word by being ambiguous.
+    # ------------------------------------------------------
 
-    while set(e_words).issubset(set(wordlist)) == False:
-      count += 1
-      text = apply_shift(text, 1)
-      e_words = e_word_list(text)
-      # print e_words, count
-    return count
+    # e_words = e_word_list(text)
+    # count = 0
+    # # print e_words, count
+    #
+    # while set(e_words).issubset(set(wordlist)) == False:
+    #   count += 1
+    #   text = apply_shift(text, 1)
+    #   e_words = e_word_list(text)
+    #   # print e_words, count
+    # return count
 
-def e_word_list(text):
-  '''
-  Helper function that takes a string of text, breaks it into a list of words,
-  and strips the words of any punctuation.
+    # ------------------------------------------------------
+    # Below was written using the provided pesudo-code solution.
+    # Took about 3 min to implement. Works a dream.
+    # ------------------------------------------------------
 
-  This is used to generate the list of words to check as valid from the word list.
-  (instead of using the class-provided is_word() function)
-  '''
-
-  words = text.split()
-  for n in range(len(words)):
-    words[n] = words[n].lower()
-    words[n] = words[n].strip(" !@#$%^&*()-_+={}[]|\:;'<>?,./\"")
-  return words
+    best_shift = 0
+    valid_words = 0
+    max_words = 0
 
 
-# for i in range(27):
-#   s = apply_shift('Hello, world!', i)
-#   s = s.split()
-#   print s, i
-# print
-# print
+    for n in range(27):
+      new_text = apply_shift(text, n)
+      list_words = new_text.split()
+      for l in list_words:
+        if is_word(wordlist, l):
+          valid_words += 1
+      if valid_words > max_words:
+        max_words = valid_words
+        best_shift = n
+      # print new_text
+    return best_shift
 
-# print e_word_list('Hello, world!')
+# ----------------------
+# Test for find_best_shift()
+# ----------------------
 
 # s = apply_shift('Hello, world!', 12)
 # print find_best_shift(wordlist, s)
+
+# ----------------------
+
+
+# ------------------------------------------------------
+#  DO NOT USE
+# ------------------------------------------------------
+
+# def e_word_list(text):
+#   '''
+#   Helper function that takes a string of text, breaks it into a list of words,
+#   and strips the words of any punctuation.
+#
+#   This is used to generate the list of words to check as valid from the word list.
+#   (instead of using the class-provided is_word() function)
+#   '''
+#
+#   words = text.split()
+#   for n in range(len(words)):
+#     words[n] = words[n].lower()
+#     words[n] = words[n].strip(" !@#$%^&*()-_+={}[]|\:;'<>?,./\"")
+#   return words
+
 
 
 #
@@ -331,7 +391,31 @@ def apply_shifts(text, shifts):
     >>> apply_shifts("Do Androids Dream of Electric Sheep?", [(0,6), (3, 18), (12, 16)])
     'JufYkaolfapxQdrnzmasmRyrpfdvpmEurrb?'
     """
-    ### TODO.
+
+
+    for n in range(len(shifts)):
+      shifted_text = apply_shift(text[shifts[n][0]:],shifts[n][1])
+      text = text[:shifts[n][0]] + shifted_text
+      # print shifted_text, shifts[n][1]
+      # print text
+      # print
+    return text
+
+# ----------------------
+# Test for apply_shifts()
+# ----------------------
+
+# s = "Do Androids Dream of Electric Sheep?"
+# print apply_shifts(s, [(0,6), (3, 18), (12, 16)])
+# Expected: 'JufYkaolfapxQdrnzmasmRyrpfdvpmEurrb?'
+
+# s = 'tjxuojyfJxkgsfulfKrkizxoifYnkkv?'
+# print
+# print apply_shift(s, 18)
+
+# ----------------------
+
+
 
 #
 # Problem 4: Multi-level decryption.
@@ -367,6 +451,22 @@ def find_best_shifts(wordlist, text):
     Do Androids Dream of Electric Sheep?
     """
 
+
+# s = apply_shifts("Do Androids Dream of Electric Sheep?", [(0,6), (3, 18), (12, 16)])
+# best_shifts = find_best_shifts(wordlist, s)
+# print best_shifts
+# print apply_shifts(s, best_shifts)
+#
+# s = random_scrambled(wordlist, 3)
+# shifts = find_best_shifts(wordlist, s)
+# print
+# print "Encoded string: ", s
+# print "Best shifts:" , shifts
+# print "Decoded string: ", apply_shifts(s, shifts)
+
+
+
+
 def find_best_shifts_rec(wordlist, text, start):
     """
     Given a scrambled string and a starting position from which
@@ -381,7 +481,7 @@ def find_best_shifts_rec(wordlist, text, start):
     start: where to start looking at shifts
     returns: list of tuples.  each tuple is (position in text, amount of shift)
     """
-    ### TODO.
+
 
 
 def decrypt_fable():

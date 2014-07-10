@@ -2,17 +2,33 @@ Your algorithms should be plain English explanations for the steps your program 
 
 Write out your algorithm for Problem 2 here:
 
-Take encrypted text as input
-Take list of valid words
-Break apart encrypted text to list of words
-while words in list are not members of valid words list:
-  Shift cipher to get new string of text
-  break string of text into list of new words
-  increment count by 1
-when words in list are members of valid words list
-return count #
-
-
+Take encrpyed text as input
+set max valid words to 0
+set best shift to 0
+For the entire range of shifts (27)
+  Shift the original text by n
+  count the nubmer of valid words
+  if the # of valid words is > the max valid words,
+    max valid words = valid words in shift n
+    best shift = shift n
+return best shift
 
 
 Write out your algorithm for Problem 4 here:
+
+Take a multi-level encryped string and a list of valid words
+While all words in the string are not members of the word list:
+  While no words in the string are members of the word list:
+    shift the string by 1
+    split the string into a list of words
+  Move the valid word(s) to a new string
+  Move the starting point of the test string to where the last valid word ended
+
+start at index 1
+check if the word is in the word list
+if the word doesn't match:
+  shift by 1
+If the word matches:
+  return the word
+  mark the index
+  strip the word from the beginning of the text
