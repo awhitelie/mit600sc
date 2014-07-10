@@ -2,6 +2,8 @@
 #
 # Caesar Cipher Skeleton
 #
+
+
 import string
 import random
 
@@ -243,6 +245,10 @@ def apply_shift(text, shift):
     coder = build_coder(shift)
     return apply_coder(text, coder)
 
+def apply_shift_back(text, shift):
+
+    decoder = build_decoder(shift)
+    return apply_coder(text, decoder)
 
 # print apply_shift('This is a test.', 8)
 
@@ -265,7 +271,46 @@ def find_best_shift(wordlist, text):
     >>> apply_coder(s, build_decoder(8)) returns
     'Hello, world!'
     """
-    ### TODO
+
+    e_words = e_word_list(text)
+    count = 0
+    # print e_words, count
+
+    while set(e_words).issubset(set(wordlist)) == False:
+      count += 1
+      text = apply_shift(text, 1)
+      e_words = e_word_list(text)
+      # print e_words, count
+    return count
+
+def e_word_list(text):
+  '''
+  Helper function that takes a string of text, breaks it into a list of words,
+  and strips the words of any punctuation.
+
+  This is used to generate the list of words to check as valid from the word list.
+  (instead of using the class-provided is_word() function)
+  '''
+
+  words = text.split()
+  for n in range(len(words)):
+    words[n] = words[n].lower()
+    words[n] = words[n].strip(" !@#$%^&*()-_+={}[]|\:;'<>?,./\"")
+  return words
+
+
+# for i in range(27):
+#   s = apply_shift('Hello, world!', i)
+#   s = s.split()
+#   print s, i
+# print
+# print
+
+# print e_word_list('Hello, world!')
+
+# s = apply_shift('Hello, world!', 12)
+# print find_best_shift(wordlist, s)
+
 
 #
 # Problem 3: Multi-level encryption.

@@ -2,5 +2,17 @@ Your algorithms should be plain English explanations for the steps your program 
 
 Write out your algorithm for Problem 2 here:
 
+Take encrypted text as input
+Take list of valid words
+Break apart encrypted text to list of words
+while words in list are not members of valid words list:
+  Shift cipher to get new string of text
+  break string of text into list of new words
+  increment count by 1
+when words in list are members of valid words list
+return count #
+
+
+
 
 Write out your algorithm for Problem 4 here:
